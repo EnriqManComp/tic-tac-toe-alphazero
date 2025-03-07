@@ -1,5 +1,7 @@
 from game.tic_tac_toe import TicTacToe
-from mcts.mcts import MCTS
+#from mcts.mcts import MCTS # No AI
+from mcts.ai_mcts import MCTS
+from network.alphazero_net import ResNet
 import numpy as np
 
 
@@ -12,14 +14,19 @@ if __name__ == "__main__":
     player = 1
     # Set args
     args = {
-        "C": 1.41,
+        "C": 2,
         "num_searches": 1000
     }
     # Set initial state
     state = game.get_initial_state()
 
-    # Define MCTS
-    mcts = MCTS(game, args)
+    # Define the Network
+    model = ResNet(game, num_resBlocks=4, num_hidden=64)
+    model.eval()
+
+      # Define MCTS
+    #mcts = MCTS(game, args) # No AI
+    mcts = MCTS(game, args, model)
 
     while True:
         print(state)
@@ -38,7 +45,9 @@ if __name__ == "__main__":
         else:
             neutral_state = game.change_perspective(state, player)
             mcts_probs = mcts.search(neutral_state)
+            #print(mcts_probs)
             action = np.argmax(mcts_probs)
+            #print("ACTION: ", action)
 
         state = game.get_next_state(state, action, player)
 
