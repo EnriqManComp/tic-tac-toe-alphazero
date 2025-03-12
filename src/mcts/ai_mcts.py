@@ -12,13 +12,12 @@ class Node:
         self.prior = prior
 
         self.children = []
-        self.expandable_moves = game.get_valid_actions(state)
 
         self.visit_count = 0
         self.value_sum = 0
 
     def is_fully_expanded(self):
-        return np.sum(self.expandable_moves) == 0 and len(self.children) > 0
+        return len(self.children) > 0
 
     def select(self):
         best_child = None

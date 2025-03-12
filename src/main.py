@@ -17,8 +17,6 @@ if __name__ == "__main__":
         "C": 2,
         "num_searches": 1000
     }
-    # Set initial state
-    state = game.get_initial_state()
 
     # Define the Network
     model = ResNet(game, num_resBlocks=4, num_hidden=64)
@@ -27,6 +25,9 @@ if __name__ == "__main__":
       # Define MCTS
     #mcts = MCTS(game, args) # No AI
     mcts = MCTS(game, args, model)
+
+    # Set initial state
+    state = game.get_initial_state()
 
     while True:
         print(state)
